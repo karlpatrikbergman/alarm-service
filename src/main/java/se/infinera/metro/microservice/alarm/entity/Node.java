@@ -1,16 +1,20 @@
 package se.infinera.metro.microservice.alarm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true) //Needed by Hibernate
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Value
-@ToString(exclude={"alarms"})
 @Builder
 @Entity
 public class Node {
@@ -21,18 +25,32 @@ public class Node {
     private int port;
     private String userName;
     private String password;
-    private String sessionId;
+
+    @JsonIgnore
+    @Transient
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Transient
-    @Autowired
-    private RestTemplate restTemplate;
+    @JsonIgnore
+    NodeConnection nodeConnection = new NodeConnection(this);
 
-    @OneToMany(mappedBy = "node")
-    private List<Alarm> alarms;
-
-    public boolean originatesFrom(Alarm alarm) {
-        return alarms.contains(alarm);
+    @JsonIgnore
+    public List<NodeAlarm> getAlarms() {
+        nodeConnection.checkSession();
+        return restTemplate.exchange(
+                getAlarmsUri(),
+                HttpMethod.GET,
+                nodeConnection.getHttpEntity(),
+                new ParameterizedTypeReference<List<NodeAlarm>>() {}).getBody();
     }
 
+    String getAlarmsUri() {
+        String alarmsGetJsonPath = "/mib/alarm/current/get.json";
+        return "http://" + ipAddress + ":" + port + alarmsGetJsonPath;
+    }
 
+    String getEnmLoginUri() {
+        String loginPath = "/getLogin.asp?userName=" + userName + "&password=" + password + "&oneTimeLogin=false";
+        return "http://" + ipAddress + ":" + port + loginPath;
+    }
 }
