@@ -44,7 +44,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
-    runtime("com.h2database:h2")
+
+    //runtime("com.h2database:h2")
+    //To enable db access via sql tool
+    compile("com.h2database:h2")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testRuntime("com.jayway.jsonpath:json-path")
@@ -53,7 +56,3 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.12'
 }
-
-//bootRun {
-//    jvmArgs = ["-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n"]
-//}

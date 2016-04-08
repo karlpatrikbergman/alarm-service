@@ -1,0 +1,2 @@
+INSERT INTO node (id, ip_address, port, user_name, password) VALUES (1, '172.17.0.2', 80, 'root', '')
+INSERT INTO node (id, ip_address, port, user_name, password) VALUES (2, '172.17.0.3', 80, 'root', '')

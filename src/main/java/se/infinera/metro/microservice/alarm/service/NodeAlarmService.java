@@ -2,8 +2,8 @@ package se.infinera.metro.microservice.alarm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.infinera.metro.microservice.alarm.entity.Node;
-import se.infinera.metro.microservice.alarm.entity.NodeAlarm;
+import se.infinera.metro.microservice.alarm.service.domain.Node;
+import se.infinera.metro.microservice.alarm.service.domain.Alarm;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class NodeAlarmService {
     @Autowired
     protected NodeRepository nodeRepository;
 
-    public List<List<NodeAlarm>> getAllNodesAlarms() {
+    public List<List<Alarm>> getAllNodesAlarms() {
         return StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
                 .map(Node::getAlarms)
                 .collect(Collectors.toList());

@@ -24,8 +24,8 @@ public class Application {
         return new PollNodesRunner();
     }
 
-    @Bean
-    public PopulateDatabaseRunner populateDatabaseRunner() {
-        return new PopulateDatabaseRunner();
-    }
+//    @Bean
+//    public PopulateDatabaseRunner populateDatabaseRunner() {
+//        return new PopulateDatabaseRunner();
+//    }
 }

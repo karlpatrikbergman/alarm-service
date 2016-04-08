@@ -1,4 +1,4 @@
-package se.infinera.metro.microservice.alarm.entity;
+package se.infinera.metro.microservice.alarm.service.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Value
 @Builder
-public class NodeAlarm {
+public class Alarm {
     private String alarmIndex;
     private String alarmObject;
     private String alarmFaultStatus;

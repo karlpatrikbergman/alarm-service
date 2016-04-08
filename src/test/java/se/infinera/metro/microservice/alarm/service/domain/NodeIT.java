@@ -1,4 +1,4 @@
-package se.infinera.metro.microservice.alarm.entity;
+package se.infinera.metro.microservice.alarm.service.domain;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.Test;
  * At the moment a docker node must be running with ip 172.17.0.2 --> This is an integration test
  * Turn into unit test? Mock ENM?
  */
-public class NodeAlarmIT {
+public class NodeIT {
     private Node node;
     private final String userName = "root";
     private final String password = "";
@@ -18,7 +18,6 @@ public class NodeAlarmIT {
     @Before
     public void setup() {
         node = Node.builder()
-                .id(0L)
                 .ipAddress(ipAddress)
                 .port(port)
                 .userName("root")

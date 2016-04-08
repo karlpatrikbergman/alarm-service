@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
-import se.infinera.metro.microservice.alarm.entity.Node;
+import se.infinera.metro.microservice.alarm.service.domain.Node;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 
 import java.util.stream.StreamSupport;

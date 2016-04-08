@@ -1,7 +1,7 @@
 package se.infinera.metro.microservice.alarm.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import se.infinera.metro.microservice.alarm.entity.Node;
+import se.infinera.metro.microservice.alarm.service.domain.Node;
 
 import java.util.List;
 

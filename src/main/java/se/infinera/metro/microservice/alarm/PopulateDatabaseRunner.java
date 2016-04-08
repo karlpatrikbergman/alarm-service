@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import se.infinera.metro.microservice.alarm.entity.Node;
+import se.infinera.metro.microservice.alarm.service.domain.Node;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 
 import java.util.Arrays;

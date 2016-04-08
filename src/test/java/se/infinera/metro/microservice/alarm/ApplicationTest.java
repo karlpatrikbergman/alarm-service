@@ -9,16 +9,21 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
-import se.infinera.metro.microservice.alarm.entity.Node;
+import se.infinera.metro.microservice.alarm.controller.dto.NodeDTO;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
+import se.infinera.metro.microservice.alarm.service.domain.Node;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -28,27 +33,41 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest("server.port:0")
 public class ApplicationTest {
 
-    private final String nodeIpAddress = "172.17.0.2";
+    private final String nodeIpAddress = "172.17.0.3";
 
     @Autowired
     private WebApplicationContext context;
     @Autowired
     private NodeRepository repository;
+    @Autowired
+    private DataSource ds;
 
     @Value("${local.server.port}")
     private int port;
 
     private MockMvc mockMvc;
     private RestTemplate restTemplate = new TestRestTemplate();
+    private static boolean loadDataFixtures = true;
 
     @Before
     public void setupMockMvc() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    }
+
+    @Before
+    public void loadDataFixtures() {
+        if (loadDataFixtures) {
+            Resource resource =context.getResource("classpath:/testdata.sql");
+            ResourceDatabasePopulator populator = new ResourceDatabasePopulator(context.getResource("classpath:/testdata.sql"));
+            DatabasePopulatorUtils.execute(populator, ds);
+            loadDataFixtures = false;
+        }
     }
 
     @Test
@@ -58,16 +77,16 @@ public class ApplicationTest {
 
     @Test
     public void getNodes() {
-        List<Node> nodes = restTemplate.exchange("http://localhost:" + port + "/nodes", HttpMethod.GET, null, new ParameterizedTypeReference<List<Node>>(){}).getBody();
+        List<NodeDTO> nodes = restTemplate.exchange("http://localhost:" + port + "/nodes", HttpMethod.GET, null, new ParameterizedTypeReference<List<NodeDTO>>(){}).getBody();
         assertNotNull(nodes);
         assertEquals(2, nodes.size());
     }
 
     @Test
     public void getNode() {
-        List<Node> nodes = restTemplate.exchange("http://localhost:" + port + "/nodes/" + nodeIpAddress, HttpMethod.GET, null, new ParameterizedTypeReference<List<Node>>(){}).getBody();
-        assertNotNull(nodes);
-        System.out.println(nodes.get(0));
+        NodeDTO node = restTemplate.exchange("http://localhost:" + port + "/nodes/" + nodeIpAddress, HttpMethod.GET, null, new ParameterizedTypeReference<NodeDTO>(){}).getBody();
+        assertNotNull(node);
+        System.out.println(node);
     }
 
     @Test
