@@ -1,10 +1,7 @@
 package se.infinera.metro.microservice.alarm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.infinera.metro.microservice.alarm.controller.dto.NodeDTO;
 import se.infinera.metro.microservice.alarm.mapping.NodeMapper;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
@@ -25,6 +22,20 @@ public class NodeController {
 
     @Autowired
     private NodeMapper nodeMapper;
+
+    @RequestMapping(method = RequestMethod.POST)
+    public NodeDTO addNode(@RequestBody NodeDTO nodeDTO) {
+        Node node = nodeMapper.toNode(nodeDTO);
+        node = nodeRepository.save(node);
+        return nodeMapper.toNodeDTO(node);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public NodeDTO updateNode(@RequestBody NodeDTO nodeDTO) {
+        Node node = nodeMapper.toNode(nodeDTO);
+        node = nodeRepository.save(node);
+        return nodeMapper.toNodeDTO(node);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<NodeDTO> getNodes() {

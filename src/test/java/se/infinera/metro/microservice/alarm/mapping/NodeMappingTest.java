@@ -69,8 +69,8 @@ public class NodeMappingTest {
     public void nodeDTOListToNodeList() {
         List<Node> nodeList = mapperFacade.mapAsList(nodeDTOListSource, Node.class);
         assertNotNull(nodeList);
-        assertEquals(nodeListSource.size(), nodeList.size());
-        assertEquals(nodeListSource.get(0).getIpAddress(), nodeList.get(0).getIpAddress());
+        assertEquals(nodeDTOListSource.size(), nodeList.size());
+        assertEquals(nodeDTOListSource.get(0).getIpAddress(), nodeList.get(0).getIpAddress());
     }
 
 }

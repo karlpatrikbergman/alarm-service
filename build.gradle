@@ -48,6 +48,7 @@ dependencies {
     compile("com.h2database:h2")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.apache.commons:commons-math3:3.6.1")
     testRuntime("com.jayway.jsonpath:json-path")
 }
 

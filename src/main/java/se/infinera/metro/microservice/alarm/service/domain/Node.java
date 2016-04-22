@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.util.List;
 
+/**
+ * TODO: Make ip address and port key in node table. Skip id.
+ */
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true) //Needed by Hibernate
 @AllArgsConstructor(access = AccessLevel.PUBLIC) //Needed by Orika
 @Value
@@ -29,20 +33,20 @@ public class Node {
     @JsonIgnore
     private final NodeConnection nodeConnection = new NodeConnection(this);
 
-    /**
-     * Orika needs a constructor with arguments with for only the fields that are to
-     * be mapped.
-     * @param ipAddress
-     * @param port
-     * @param userName
-     * @param password
-     */
-    public Node(String ipAddress, int port, String userName, String password) {
-        this.ipAddress = ipAddress;
-        this.port = port;
-        this.userName = userName;
-        this.password = password;
-    }
+//    /**
+//     * Orika needs a constructor with arguments with for only the fields that are to
+//     * be mapped.
+//     * @param ipAddress
+//     * @param port
+//     * @param userName
+//     * @param password
+//     */
+//    public Node(String ipAddress, int port, String userName, String password) {
+//        this.ipAddress = ipAddress;
+//        this.port = port;
+//        this.userName = userName;
+//        this.password = password;
+//    }
 
     @JsonIgnore
     public List<Alarm> getAlarms() {
