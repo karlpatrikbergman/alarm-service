@@ -1,0 +1,17 @@
+{
+  "alarmIndex" : "alarm-index",
+  "alarmObject" : "alarm-object",
+  "alarmFaultStatus" : "alarm-faultstatus",
+  "alarmMgmtName" : "alarm-mgmtname",
+  "alarmInvPhysIndexOrZero" : "alarm-inv-phys-index-or-zero",
+  "alarmInvLogicalIndexOrZero" : "alarm-inv-logical-index-or-zero",
+  "alarmType" : "alarm-type",
+  "alarmCause" : "alarm-type",
+  "alarmText" : "alarm-text",
+  "alarmSeverity" : "alarm-severity",
+  "alarmCreatedTime" : "alarm-created-time",
+  "alarmLastChangeTime" : "alarm-last-change-time",
+  "alarmSeqNumber" : "alarm-number",
+  "alarmNeName" : "alarm-ne-name",
+  "alarmNeIpAddress" : "alarm-ne-ipaddress"
+}

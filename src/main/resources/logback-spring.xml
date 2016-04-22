@@ -3,6 +3,6 @@
     <include resource="org/springframework/boot/logging/logback/base.xml" />
     <logger name="se.infinera.metro.microservice.alarm" level="DEBUG" />
     <springProfile name="staging">
-        <logger name="se.infinera.metro.microservice.alarm" level="TRACE" />
+        <logger name="se.infinera.metro.microservice.alarm" level="DEBUG" />
     </springProfile>
 </configuration>

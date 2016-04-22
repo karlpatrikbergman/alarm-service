@@ -1,0 +1,66 @@
+package se.infinera.metro.microservice.alarm.util;
+
+import se.infinera.metro.microservice.alarm.controller.dto.AlarmDTO;
+import se.infinera.metro.microservice.alarm.service.domain.Alarm;
+
+import java.util.Arrays;
+import java.util.List;
+
+public final class AlarmMockFactory {
+
+    public static Alarm mockAlarm() {
+        return Alarm.builder()
+                .alarmIndex("alarm-index")
+                .alarmObject("alarm-object")
+                .alarmFaultStatus("alarm-faultstatus")
+                .alarmMgmtName("alarm-mgmtname")
+                .alarmInvPhysIndexOrZero("alarm-inv-phys-index-or-zero")
+                .alarmInvLogicalIndexOrZero("alarm-inv-logical-index-or-zero")
+                .alarmType("alarm-type")
+                .alarmCause("alarm-type")
+                .alarmText("alarm-text")
+                .alarmSeverity("alarm-severity")
+                .alarmCreatedTime("alarm-created-time")
+                .alarmLastChangeTime("alarm-last-change-time")
+                .alarmSeqNumber("alarm-number")
+                .alarmNeName("alarm-ne-name")
+                .alarmNeIpAddress("alarm-ne-ipaddress")
+                .build();
+    }
+
+    public static AlarmDTO mockAlarmDTO() {
+        return AlarmDTO.builder()
+                .alarmIndex("alarm-index")
+                .alarmObject("alarm-object")
+                .alarmFaultStatus("alarm-faultstatus")
+                .alarmMgmtName("alarm-mgmtname")
+                .alarmInvPhysIndexOrZero("alarm-inv-phys-index-or-zero")
+                .alarmInvLogicalIndexOrZero("alarm-inv-logical-index-or-zero")
+                .alarmType("alarm-type")
+                .alarmCause("alarm-type")
+                .alarmText("alarm-text")
+                .alarmSeverity("alarm-severity")
+                .alarmCreatedTime("alarm-created-time")
+                .alarmLastChangeTime("alarm-last-change-time")
+                .alarmSeqNumber("alarm-number")
+                .alarmNeName("alarm-ne-name")
+                .alarmNeIpAddress("alarm-ne-ipaddress")
+                .build();
+    }
+
+    public static List<AlarmDTO> mockAlarmDTOList() {
+        return Arrays.asList(mockAlarmDTO());
+    }
+
+    public static List<Alarm> mockAlarmList() {
+        return Arrays.asList(mockAlarm());
+    }
+
+    public static List<List<AlarmDTO>> mockAllNodesAlarmDTOs() {
+        return Arrays.asList(mockAlarmDTOList());
+    }
+
+    public static List<List<Alarm>> mockAllNodesAlarms() {
+        return Arrays.asList(mockAlarmList());
+    }
+}

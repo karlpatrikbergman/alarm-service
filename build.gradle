@@ -24,11 +24,6 @@ allprojects {
     targetCompatibility = 1.8
 }
 
-jar {
-    baseName = 'alarm-service'
-    version = '0.1.0'
-}
-
 repositories {
     mavenCentral()
     mavenLocal()
@@ -37,8 +32,11 @@ repositories {
 
 dependencies {
     compile("org.apache.httpcomponents:httpclient:4.5.2")
-    compile("org.projectlombok:lombok:1.16.6")
+    compile("org.projectlombok:lombok:1.16.8")
     compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("ma.glasnost.orika:orika-core:1.4.6")
+    compile("com.google.guava:guava:19.0")
+
 
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-data-rest")
@@ -53,6 +51,6 @@ dependencies {
     testRuntime("com.jayway.jsonpath:json-path")
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
-}
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '3.0'
+//}

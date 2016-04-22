@@ -1,6 +1,7 @@
 package se.infinera.metro.microservice.alarm.service;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,13 +14,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.context.WebApplicationContext;
 import se.infinera.metro.microservice.alarm.Application;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
-import se.infinera.metro.microservice.alarm.service.NodeAlarmService;
+import se.infinera.metro.microservice.alarm.service.domain.Alarm;
+import se.infinera.metro.microservice.alarm.util.JsonString;
 
 import javax.sql.DataSource;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
+@Slf4j
 public class NodeAlarmServiceIT {
     @Autowired
     private WebApplicationContext context;
@@ -42,6 +48,10 @@ public class NodeAlarmServiceIT {
 
     @Test
     public void getAllNodesAlarms() {
-        nodeAlarmService.getAllNodesAlarms();
+        List<List<Alarm>> allNodesAlarms = nodeAlarmService.getAllNodesAlarms();
+        assertNotNull(allNodesAlarms);
+        allNodesAlarms.stream()
+                .forEach(alarm -> log.info("{}", new JsonString(alarm))
+        );
     }
 }
