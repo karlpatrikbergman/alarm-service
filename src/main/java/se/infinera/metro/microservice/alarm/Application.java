@@ -35,9 +35,4 @@ public class Application {
     public NodeMapper nodeMapper() {
         return NodeMapper.INSTANCE;
     }
-
-//    @Bean
-//    public PopulateDatabaseRunner populateDatabaseRunner() {
-//        return new PopulateDatabaseRunner();
-//    }
 }

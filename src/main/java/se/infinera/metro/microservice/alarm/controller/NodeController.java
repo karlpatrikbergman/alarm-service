@@ -44,19 +44,24 @@ public class NodeController {
         return nodeMapper.toNodeDTOList(nodeList);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteNode(@PathVariable long id) {
+        nodeRepository.delete(id);
+    }
+
     /**
      * http://stackoverflow.com/questions/16332092/spring-mvc-pathvariable-with-dot-is-getting-truncated
      * @param ipAddress
      * @return
      */
     @RequestMapping(value = "/{ipAddress:.+}", method = RequestMethod.GET)
-    public NodeDTO getNodeByIpAddress(@PathVariable String ipAddress) throws NotFoundExeption{
+    public NodeDTO getNodeByIpAddress(@PathVariable String ipAddress) throws NotFoundException {
         Optional<Node> node = StreamSupport.stream(nodeRepository.findByIpAddress(ipAddress).spliterator(), false)
                 .findFirst();
         if(node.isPresent()) {
             return nodeMapper.toNodeDTO(node.get());
         } else {
-            throw new NotFoundExeption("Failed to find node with ip-address" + ipAddress);
+            throw new NotFoundException("Failed to find node with ip-address" + ipAddress);
         }
     }
 }
