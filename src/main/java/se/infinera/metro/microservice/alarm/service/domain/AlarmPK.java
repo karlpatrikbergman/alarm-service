@@ -1,8 +1,6 @@
 package se.infinera.metro.microservice.alarm.service.domain;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -16,7 +14,9 @@ import java.io.Serializable;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true) //Needed by Hibernate
+@AllArgsConstructor(access = AccessLevel.PRIVATE) //Needed by builder?
 @Value
+@Builder
 public class AlarmPK implements Serializable {
     private static final long serialVersionUID = 7689587410619336611L;
     private final String alarmNeIpAddress;
