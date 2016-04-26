@@ -41,7 +41,7 @@ public class AlarmMappingTest {
     public void alarmToAlarmDto_UsingMapperFacade() {
         AlarmDTO alarmDTO = mapperFacade.map(alarmSource, AlarmDTO.class);
         assertNotNull(alarmDTO);
-        assertEquals("alarm-ne-ipaddress", alarmDTO.getAlarmNeIpAddress());
+        assertEquals(alarmSource.getAlarmNeIpAddress(), alarmDTO.getAlarmNeIpAddress());
         log.info(alarmDTO.toString());
     }
 
@@ -49,21 +49,21 @@ public class AlarmMappingTest {
     public void alarmDtoToAlarm_UsingMapperFacade() {
         Alarm alarm = mapperFacade.map(alarmDTOSource, Alarm.class);
         assertNotNull(alarm);
-        assertEquals("alarm-ne-ipaddress", alarm.getAlarmNeIpAddress());
+        assertEquals(alarmDTOSource.getAlarmNeIpAddress(), alarm.getAlarmNeIpAddress());
     }
 
     @Test
     public void alarmToAlarmDto_UsingBoundMapperFacade() {
         AlarmDTO alarmDTO = boundMapperFacade.map(alarmSource);
         assertNotNull(alarmDTO);
-        assertEquals("alarm-ne-ipaddress", alarmDTO.getAlarmNeIpAddress());
+        assertEquals(alarmSource.getAlarmNeIpAddress(), alarmDTO.getAlarmNeIpAddress());
     }
 
     @Test
     public void alarmDtoToAlarm_UsingBoundMapperFacade() {
         Alarm alarm = boundMapperFacade.mapReverse(alarmDTOSource);
         assertNotNull(alarm);
-        assertEquals("alarm-ne-ipaddress", alarm.getAlarmNeIpAddress());
+        assertEquals(alarmDTOSource.getAlarmNeIpAddress(), alarm.getAlarmNeIpAddress());
     }
 
     @Test

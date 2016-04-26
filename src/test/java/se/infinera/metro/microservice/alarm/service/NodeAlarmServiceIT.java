@@ -13,6 +13,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.context.WebApplicationContext;
 import se.infinera.metro.microservice.alarm.Application;
+import se.infinera.metro.microservice.alarm.HttpConfig;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 import se.infinera.metro.microservice.alarm.service.domain.Alarm;
 import se.infinera.metro.microservice.alarm.util.JsonString;
@@ -23,14 +24,14 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = {Application.class, HttpConfig.class})
 @WebIntegrationTest
 @Slf4j
 public class NodeAlarmServiceIT {
     @Autowired
     private WebApplicationContext context;
-    @Autowired
-    private NodeRepository nodeRepository;
+//    @Autowired
+//    private NodeRepository nodeRepository;
     @Autowired
     private DataSource ds;
     private static boolean loadDataFixtures = true;

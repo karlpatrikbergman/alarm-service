@@ -1,5 +1,6 @@
 package se.infinera.metro.microservice.alarm.util;
 
+import org.apache.commons.math3.random.RandomDataGenerator;
 import se.infinera.metro.microservice.alarm.controller.dto.AlarmDTO;
 import se.infinera.metro.microservice.alarm.service.domain.Alarm;
 
@@ -7,10 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class AlarmMockFactory {
-
+    private static RandomIpGenerator ipGenerator = RandomIpGenerator.INSTANCE;
     public static Alarm mockAlarm() {
         return Alarm.builder()
-                .alarmIndex("alarm-index")
+                .alarmIndex(Integer.toString(new RandomDataGenerator().nextInt(0,99)))
                 .alarmObject("alarm-object")
                 .alarmFaultStatus("alarm-faultstatus")
                 .alarmMgmtName("alarm-mgmtname")
@@ -24,13 +25,13 @@ public final class AlarmMockFactory {
                 .alarmLastChangeTime("alarm-last-change-time")
                 .alarmSeqNumber("alarm-number")
                 .alarmNeName("alarm-ne-name")
-                .alarmNeIpAddress("alarm-ne-ipaddress")
+                .alarmNeIpAddress(ipGenerator.getRandomIpAddress())
                 .build();
     }
 
     public static AlarmDTO mockAlarmDTO() {
         return AlarmDTO.builder()
-                .alarmIndex("alarm-index")
+                .alarmIndex(Integer.toString(new RandomDataGenerator().nextInt(0,99)))
                 .alarmObject("alarm-object")
                 .alarmFaultStatus("alarm-faultstatus")
                 .alarmMgmtName("alarm-mgmtname")
@@ -44,7 +45,7 @@ public final class AlarmMockFactory {
                 .alarmLastChangeTime("alarm-last-change-time")
                 .alarmSeqNumber("alarm-number")
                 .alarmNeName("alarm-ne-name")
-                .alarmNeIpAddress("alarm-ne-ipaddress")
+                .alarmNeIpAddress(ipGenerator.getRandomIpAddress())
                 .build();
     }
 

@@ -33,21 +33,6 @@ public class Node {
     @JsonIgnore
     private final NodeConnection nodeConnection = new NodeConnection(this);
 
-//    /**
-//     * Orika needs a constructor with arguments with for only the fields that are to
-//     * be mapped.
-//     * @param ipAddress
-//     * @param port
-//     * @param userName
-//     * @param password
-//     */
-//    public Node(String ipAddress, int port, String userName, String password) {
-//        this.ipAddress = ipAddress;
-//        this.port = port;
-//        this.userName = userName;
-//        this.password = password;
-//    }
-
     @JsonIgnore
     public List<Alarm> getAlarms() {
         return nodeConnection.getAlarms();

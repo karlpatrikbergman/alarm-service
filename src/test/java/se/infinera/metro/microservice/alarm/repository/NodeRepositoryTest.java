@@ -7,21 +7,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.context.web.WebAppConfiguration;
 import se.infinera.metro.microservice.alarm.Application;
+import se.infinera.metro.microservice.alarm.HttpConfig;
 import se.infinera.metro.microservice.alarm.service.domain.Node;
 import se.infinera.metro.microservice.alarm.util.JsonString;
 import se.infinera.metro.microservice.alarm.util.NodeMockFactory;
 
-import javax.sql.DataSource;
-import java.util.List;
-
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = {Application.class, HttpConfig.class})
+@WebAppConfiguration //Needed when using Swagger for some reason I don't know
 @Slf4j
 public class NodeRepositoryTest {
     @Autowired

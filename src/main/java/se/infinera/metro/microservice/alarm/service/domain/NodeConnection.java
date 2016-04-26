@@ -27,7 +27,7 @@ final class NodeConnection {
     List<Alarm> getAlarms() {
         checkSession();
         return restTemplate.exchange(
-                getAlarmsUri(),
+                getAlarmsUri(), //Contains session-id
                 HttpMethod.GET,
                 getHttpEntity(), new ParameterizedTypeReference<List<Alarm>>(){}).getBody();
     }
