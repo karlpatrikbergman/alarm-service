@@ -21,4 +21,10 @@ public class NodeAlarmService {
                 .map(Node::getAlarms)
                 .collect(Collectors.toList());
     }
+
+//    public List<List<Alarm>> getAllNodesAlarms() {
+//        return StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
+//                .map(Node::getAlarms)
+//                .collect(Collectors.toList());
+//    }
 }

@@ -18,10 +18,9 @@ import se.infinera.metro.microservice.alarm.service.domain.AlarmPK;
 import se.infinera.metro.microservice.alarm.util.AlarmMockFactory;
 
 import javax.sql.DataSource;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class, HttpConfig.class})
@@ -35,6 +34,10 @@ public class AlarmRepositoryTest {
     @Autowired
     private DataSource ds;
     private static boolean loadDataFixtures = true;
+
+    //Alarm inserted in testdata.sql
+    private final String ALARM_NE_IP_ADDRESS = "99.99.99.99";
+    private final String ALARM_INDEX = "0";
 
     @Before
     public void loadDataFixtures() {
@@ -59,8 +62,8 @@ public class AlarmRepositoryTest {
     @Test
     public void getAlarm() {
         AlarmPK alarmPK = AlarmPK.builder()
-                .alarmIndex("0")
-                .alarmNeIpAddress("99.99.99.99")
+                .alarmIndex(ALARM_INDEX)
+                .alarmNeIpAddress(ALARM_NE_IP_ADDRESS)
                 .build();
         Alarm alarm = alarmRepository.findOne(alarmPK);
         assertNotNull(alarm);
@@ -70,8 +73,8 @@ public class AlarmRepositoryTest {
     public void updateAlarm() {
         final long totalNumberOfAlarms = alarmRepository.count();
         AlarmPK alarmPK = AlarmPK.builder()
-                .alarmIndex("0")
-                .alarmNeIpAddress("99.99.99.99")
+                .alarmIndex(ALARM_INDEX)
+                .alarmNeIpAddress(ALARM_NE_IP_ADDRESS)
                 .build();
         Alarm alarm = alarmRepository.findOne(alarmPK);
         assertNotNull(alarm);
@@ -95,5 +98,16 @@ public class AlarmRepositoryTest {
 
         alarmRepository.save(updatedAlarm);
         assertEquals(totalNumberOfAlarms, alarmRepository.count());
+        Alarm findItAgain = alarmRepository.findOne(alarmPK);
+        assertEquals("some new alarm text", findItAgain.getAlarmText());
+    }
+
+    @Test
+    public void findByAlarmNeIpAddress() {
+        List<Alarm> alarmList = alarmRepository.findByAlarmNeIpAddress(ALARM_NE_IP_ADDRESS);
+        assertEquals(1, alarmList.size());
+        Alarm alarm = alarmList.get(0);
+        assertNotNull(alarm);
+        assertEquals("thin white duke", alarm.getAlarmNeName());
     }
 }
