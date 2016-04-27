@@ -26,8 +26,8 @@ import static org.junit.Assert.assertNotNull;
 public class PooledHttpConnectionTest {
 
     @Autowired
-    RestTemplate restTemplate;
-    Node node;
+    private RestTemplate restTemplate;
+    private Node node;
 
     @Before
     public void setup() {

@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.context.WebApplicationContext;
 import se.infinera.metro.microservice.alarm.Application;
 import se.infinera.metro.microservice.alarm.HttpConfig;
-import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 import se.infinera.metro.microservice.alarm.service.domain.Alarm;
 import se.infinera.metro.microservice.alarm.util.JsonString;
 
@@ -35,7 +34,6 @@ public class NodeAlarmServiceIT {
     private static boolean loadDataFixtures = true;
     @Autowired
     private NodeAlarmService nodeAlarmService;
-    private final String NODE_IP_ADDRESS = "99.99.99.99"; //Node inserted in testdata.sql
 
     @Before
     public void loadDataFixtures() {
@@ -57,6 +55,7 @@ public class NodeAlarmServiceIT {
 
     @Test
     public void getNodeAlarms() {
-        List<Alarm> alarmList = nodeAlarmService.getAlarms(NODE_IP_ADDRESS);
+        List<Alarm> alarmList = nodeAlarmService.getAlarms("99.99.99.99"); //node inserted in testdata.sql
+        assertNotNull(alarmList);
     }
 }

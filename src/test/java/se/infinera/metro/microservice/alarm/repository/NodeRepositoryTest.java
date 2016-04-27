@@ -46,7 +46,7 @@ public class NodeRepositoryTest {
         Node node = nodeRepository.findOne(nodeIpAddress);
         assertNotNull(node);
         log.info("{}", new JsonString(node));
-        nodeRepository.delete(nodeIpAddress);;
+        nodeRepository.delete(nodeIpAddress);
         Node shouldBeNull = nodeRepository.findOne(nodeIpAddress);
         assertTrue(shouldBeNull == null);
     }

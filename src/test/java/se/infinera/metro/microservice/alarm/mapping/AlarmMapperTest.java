@@ -65,7 +65,7 @@ public class AlarmMapperTest {
     public void allNodesAlarmDTOsToAllNodesAlarmsList() {
         List<List<Alarm>> allNodesAlarms = AlarmMockFactory.mockAllNodesAlarms();
         List<List<AlarmDTO>> allNodesAlarmDTOs = alarmMapper.toAllNodesAlarmDTOs(allNodesAlarms);
-        assertNotNull(allNodesAlarms);
-        log.info("{}", allNodesAlarms);
+        assertNotNull(allNodesAlarmDTOs);
+        log.info("{}", allNodesAlarmDTOs);
     }
 }

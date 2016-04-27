@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -44,13 +45,13 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
 
     void requestLoginAndSetSessionIdForAddedNodeConnections() {
         nodeConnections.stream()
-                .forEach(nodeConnection -> nodeConnection.requestLoginAndSetSessionId());
+                .forEach(NodeConnection::requestLoginAndSetSessionId);
     }
 
     public List<Alarm> getAllNodesAlarms() {
         return nodeConnections.stream()
-                .map(nodeConnection -> nodeConnection.getAlarms())
-                .flatMap(l -> l.stream())
+                .map(NodeConnection::getAlarms)
+                .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 

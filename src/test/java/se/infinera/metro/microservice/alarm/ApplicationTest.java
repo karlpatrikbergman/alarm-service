@@ -6,10 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
@@ -21,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 import se.infinera.metro.microservice.alarm.controller.dto.NodeDTO;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
-import se.infinera.metro.microservice.alarm.service.domain.Node;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -53,7 +50,8 @@ public class ApplicationTest {
     private int port;
 
     private MockMvc mockMvc;
-    private RestTemplate restTemplate = new TestRestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
     private static boolean loadDataFixtures = true;
 
     @Before

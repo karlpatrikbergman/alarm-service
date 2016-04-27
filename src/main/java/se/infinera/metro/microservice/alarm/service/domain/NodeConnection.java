@@ -1,5 +1,6 @@
 package se.infinera.metro.microservice.alarm.service.domain;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+@Slf4j
 @Component
 @Scope("prototype")
 public class NodeConnection {
@@ -20,10 +22,6 @@ public class NodeConnection {
     private int sessionId;
     private final Node node;
 
-//    public NodeConnection(RestTemplate restTemplate, Node node) {
-//        this.restTemplate = restTemplate;
-//        this.node = node;
-//    }
     public NodeConnection(Node node) {
         this.node = node;
     }
@@ -32,7 +30,9 @@ public class NodeConnection {
         ResponseEntity<String> loginResponse = requestLogin();
         this.sessionId = getSessionId(loginResponse.getBody());
     }
+
     public List<Alarm> getAlarms() {
+        log.info("Retrieving alarms from Node {}", node.getIpAddress());
         checkSessionId();
         return restTemplate.exchange(
                 getAlarmsUri(), //Contains session-id
@@ -63,9 +63,9 @@ public class NodeConnection {
                 .map(s -> s.replaceFirst(".*?(\\d+).*", "$1"))
                 .map(Integer::parseInt)
                 .findFirst();
-        if (sessionId.isPresent() && !sessionId.get().equals("0"))
+        if (sessionId.isPresent() && sessionId.get() != 0){
             return sessionId.get();
-        else {
+        } else {
             String errorMessage;
             if(sessionId.isPresent()) {
                 errorMessage = "Login response from Node contained sessionId=0. Restart node.";
@@ -75,7 +75,7 @@ public class NodeConnection {
             throw new RuntimeException(errorMessage);        }
     }
 
-    HttpEntity<String> getHttpEntity() {
+    HttpEntity getHttpEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cookie", "sessionId="+sessionId);
         return new HttpEntity(headers);

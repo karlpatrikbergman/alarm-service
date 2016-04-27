@@ -22,8 +22,7 @@ public class HttpConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate(httpRequestFactory());
-        return restTemplate;
+        return  new RestTemplate(httpRequestFactory());
     }
 
     @Bean

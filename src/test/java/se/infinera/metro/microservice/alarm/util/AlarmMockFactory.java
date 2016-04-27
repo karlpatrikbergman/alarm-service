@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class AlarmMockFactory {
-    private static RandomIpGenerator ipGenerator = RandomIpGenerator.INSTANCE;
+    private static final RandomIpGenerator ipGenerator = RandomIpGenerator.INSTANCE;
     public static Alarm mockAlarm() {
         return Alarm.builder()
                 .alarmIndex(Integer.toString(new RandomDataGenerator().nextInt(0,99)))

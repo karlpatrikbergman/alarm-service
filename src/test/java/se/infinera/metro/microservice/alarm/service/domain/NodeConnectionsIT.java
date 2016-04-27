@@ -1,6 +1,5 @@
 package se.infinera.metro.microservice.alarm.service.domain;
 
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +19,11 @@ import se.infinera.metro.microservice.alarm.service.NodeAlarmService;
 import se.infinera.metro.microservice.alarm.util.JsonString;
 
 import javax.sql.DataSource;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -66,14 +65,14 @@ public class NodeConnectionsIT {
         assertTrue(alarmRepository.count() > 0);
 
         alarmsFromNodeConnections.stream()
-                .map(alarm ->new JsonString(alarm))
+                .map(JsonString::new)
                 .forEach(System.out::println);
-//
-//        int nrOfAlarmsFromNodeConnections = alarmsFromNodeConnections.size();
-//        int nrOfAlarmsInDatabase = alarmService.getAllNodesAlarms().stream()
-//                .flatMap(list -> list.stream())
-//                .collect(Collectors.toList()).size();
-//        assertEquals(nrOfAlarmsFromNodeConnections, nrOfAlarmsInDatabase);
+
+        int nrOfAlarmsFromNodeConnections = alarmsFromNodeConnections.size();
+        int nrOfAlarmsInDatabase = alarmService.getAllNodesAlarms().stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList()).size();
+        assertEquals(nrOfAlarmsFromNodeConnections, nrOfAlarmsInDatabase);
 
     }
 }
