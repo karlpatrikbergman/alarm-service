@@ -21,6 +21,9 @@ public class NodeAlarmService {
     @Autowired
     protected AlarmRepository alarmRepository;
 
+    /**
+     * I would like to move behaviour getAlarms into Node. See comment in Node class.
+     */
     public List<List<Alarm>> getAllNodesAlarms() {
         return StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
                 .map(Node::getIpAddress)
