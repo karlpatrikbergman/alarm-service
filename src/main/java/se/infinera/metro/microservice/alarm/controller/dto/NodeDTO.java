@@ -7,7 +7,6 @@ import lombok.*;
 @Value
 @Builder
 public class NodeDTO {
-    private long id;
     private String ipAddress;
     private int port;
     private String userName;

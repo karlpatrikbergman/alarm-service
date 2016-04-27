@@ -1,73 +1,78 @@
 package se.infinera.metro.microservice.alarm.service.domain;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.stringtemplate.v4.ST;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
-final class NodeConnection {
-    private RestTemplate restTemplate = new RestTemplate();
-    private String sessionId;
+@Component
+@Scope("prototype")
+public class NodeConnection {
+    @Autowired
+    RestTemplate restTemplate;
+    private int sessionId;
     private final Node node;
 
-    NodeConnection(Node node) {
+//    public NodeConnection(RestTemplate restTemplate, Node node) {
+//        this.restTemplate = restTemplate;
+//        this.node = node;
+//    }
+    public NodeConnection(Node node) {
         this.node = node;
     }
 
-    List<Alarm> getAlarms() {
-        checkSession();
+    public void requestLoginAndSetSessionId() {
+        ResponseEntity<String> loginResponse = requestLogin();
+        this.sessionId = getSessionId(loginResponse.getBody());
+    }
+    public List<Alarm> getAlarms() {
+        checkSessionId();
         return restTemplate.exchange(
                 getAlarmsUri(), //Contains session-id
                 HttpMethod.GET,
                 getHttpEntity(), new ParameterizedTypeReference<List<Alarm>>(){}).getBody();
     }
 
-    void checkSession() {
-        if(sessionId == null || sessionId.equals("0")) {
-            try {
-                sessionId = getSessionId(loginToNode());
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to login and get session id");
-            }
+    void checkSessionId() {
+        if(sessionId == 0) {
+            requestLoginAndSetSessionId();
         }
     }
 
-    HttpResponse loginToNode() throws IOException {
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet(getEnmLoginUri());
-        HttpResponse response = client.execute(request);
-        if(response == null || response.getStatusLine().getStatusCode() != 200) {
-            throw new RuntimeException("Login to node failed!");
+    ResponseEntity<String> requestLogin() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> loginResponse = restTemplate.exchange(getEnmLoginUri(), HttpMethod.GET, entity, String.class);
+        if(loginResponse == null || loginResponse.getStatusCode() != HttpStatus.OK || loginResponse.getBody() == null) {
+            throw new RuntimeException("Login to node failed. Login url: " + getEnmLoginUri());
         }
-        return response;
+        return loginResponse;
     }
 
-    String getSessionId(HttpResponse httpResponse) throws IOException {
-        BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-        String line;
-        while ((line = rd.readLine()) != null) {
-            if(line.contains("sessionId")) {
-                //  .*? consumes initial non-digits(non-greedy)
-                //  (\\d+) Get the one or more available digits in a group!
-                //  .* Everything else (greedy).
-                String sessionId = line.replaceFirst(".*?(\\d+).*", "$1");
-                if (sessionId.equals("0")) {
-                    throw new RuntimeException("Retrieved session id = 0. Restart node!");
-                }
-                return sessionId;
+    int getSessionId(String responseBody) {
+        Optional<Integer> sessionId = Pattern.compile("\\R").splitAsStream(responseBody)
+                .filter(s -> s.contains("sessionId"))
+                .map(s -> s.replaceFirst(".*?(\\d+).*", "$1"))
+                .map(Integer::parseInt)
+                .findFirst();
+        if (sessionId.isPresent() && !sessionId.get().equals("0"))
+            return sessionId.get();
+        else {
+            String errorMessage;
+            if(sessionId.isPresent()) {
+                errorMessage = "Login response from Node contained sessionId=0. Restart node.";
+            } else  {
+                errorMessage = "Login response from Node did not contain any sessionId";
             }
-        }
-        throw new RuntimeException("No session id found in HttpResponse");
+            throw new RuntimeException(errorMessage);        }
     }
 
     HttpEntity<String> getHttpEntity() {
@@ -76,13 +81,20 @@ final class NodeConnection {
         return new HttpEntity(headers);
     }
 
-    String getAlarmsUri() {
-        String alarmsGetJsonPath = "/mib/alarm/current/get.json";
-        return "http://" + node.getIpAddress() + ":" + node.getPort() + alarmsGetJsonPath;
+    String getEnmLoginUri() {
+        ST loginUrl = new ST("http://<ipaddress>:<port>/getLogin.asp?userName=<username>&password=<password>&oneTimeLogin=false");
+        loginUrl.add("ipaddress", node.getIpAddress());
+        loginUrl.add("port", node.getPort());
+        loginUrl.add("username", node.getUserName());
+        loginUrl.add("password", node.getPassword());
+        return loginUrl.render();
     }
 
-    String getEnmLoginUri() {
-        String loginPath = "/getLogin.asp?userName=" + node.getUserName() + "&password=" + node.getPassword() + "&oneTimeLogin=false";
-        return "http://" + node.getIpAddress() + ":" + node.getPort() + loginPath;
+    String getAlarmsUri() {
+        ST alarmsUrl = new ST("http://<ipaddress>:<port><alarmspath>");
+        alarmsUrl.add("ipaddress", node.getIpAddress());
+        alarmsUrl.add("port", node.getPort());
+        alarmsUrl.add("alarmspath", "/mib/alarm/current/get.json");
+        return alarmsUrl.render();
     }
 }

@@ -11,7 +11,6 @@ public final class NodeMockFactory {
     private static RandomIpGenerator ipGenerator = RandomIpGenerator.INSTANCE;
     public static Node mockNode() {
         return Node.builder()
-                .id(0)
                 .ipAddress(ipGenerator.getRandomIpAddress())
                 .port(new RandomDataGenerator().nextInt(0,9999))
                 .userName("test-username")
@@ -21,7 +20,6 @@ public final class NodeMockFactory {
 
     public static NodeDTO mockNodeDTO() {
         return NodeDTO.builder()
-                .id(0)
                 .ipAddress(ipGenerator.getRandomIpAddress())
                 .port(new RandomDataGenerator().nextInt(0,9999))
                 .userName("test-username")

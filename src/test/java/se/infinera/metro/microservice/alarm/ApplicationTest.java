@@ -39,7 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebIntegrationTest("server.port:0")
 public class ApplicationTest {
 
-    private final String nodeIpAddress = "172.17.0.3";
+    //Set in testdata.sql
+    private final String nodeIpAddress = "99.99.99.99";
 
     @Autowired
     private WebApplicationContext context;
@@ -63,7 +64,6 @@ public class ApplicationTest {
     @Before
     public void loadDataFixtures() {
         if (loadDataFixtures) {
-            Resource resource =context.getResource("classpath:/testdata.sql");
             ResourceDatabasePopulator populator = new ResourceDatabasePopulator(context.getResource("classpath:/testdata.sql"));
             DatabasePopulatorUtils.execute(populator, ds);
             loadDataFixtures = false;

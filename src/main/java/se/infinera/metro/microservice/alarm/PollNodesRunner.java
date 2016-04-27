@@ -4,23 +4,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
-import se.infinera.metro.microservice.alarm.service.domain.Node;
-import se.infinera.metro.microservice.alarm.repository.NodeRepository;
+import se.infinera.metro.microservice.alarm.repository.AlarmRepository;
+import se.infinera.metro.microservice.alarm.service.domain.Alarm;
+import se.infinera.metro.microservice.alarm.service.domain.NodeConnections;
 
-import java.util.stream.StreamSupport;
+import java.util.List;
 
 @Slf4j
 public class PollNodesRunner implements CommandLineRunner {
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
-    private NodeRepository nodeRepository;
+    private NodeConnections nodeConnections;
 
-    @Scheduled(initialDelay = 10000, fixedRate = 10000)
+    @Autowired
+    private AlarmRepository alarmRepository;
+
+    @Scheduled(initialDelay = 5000, fixedRate = 5000)
     public void run() {
-        StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
-                .forEach(Node::getIpAddress);
-
+        List<Alarm> alarmList = nodeConnections.getAllNodesAlarms();
+        alarmRepository.save(alarmList);
     }
 
     @Override

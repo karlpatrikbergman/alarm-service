@@ -5,6 +5,6 @@ import se.infinera.metro.microservice.alarm.service.domain.Node;
 
 import java.util.List;
 
-public interface NodeRepository extends CrudRepository<Node, Long> {
+public interface NodeRepository extends CrudRepository<Node, String> {
     List<Node> findByIpAddress(String ipAddress);
 }

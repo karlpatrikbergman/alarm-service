@@ -45,8 +45,8 @@ public class NodeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteNode(@PathVariable long id) {
-        nodeRepository.delete(id);
+    public void deleteNode(@PathVariable String ipAddress) {
+        nodeRepository.delete(ipAddress);
     }
 
     /**

@@ -30,13 +30,12 @@ import static org.junit.Assert.assertNotNull;
 public class NodeAlarmServiceIT {
     @Autowired
     private WebApplicationContext context;
-//    @Autowired
-//    private NodeRepository nodeRepository;
     @Autowired
     private DataSource ds;
     private static boolean loadDataFixtures = true;
     @Autowired
     private NodeAlarmService nodeAlarmService;
+    private final String NODE_IP_ADDRESS = "99.99.99.99"; //Node inserted in testdata.sql
 
     @Before
     public void loadDataFixtures() {
@@ -54,5 +53,10 @@ public class NodeAlarmServiceIT {
         allNodesAlarms.stream()
                 .forEach(alarm -> log.info("{}", new JsonString(alarm))
         );
+    }
+
+    @Test
+    public void getNodeAlarms() {
+        List<Alarm> alarmList = nodeAlarmService.getAlarms(NODE_IP_ADDRESS);
     }
 }

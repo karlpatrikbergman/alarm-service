@@ -24,13 +24,13 @@ import static org.junit.Assert.*;
 public class NodeRepositoryTest {
     @Autowired
     private NodeRepository nodeRepository;
-    private long nodeId; //Node added in @Before, to be updated/deleted
+    private String nodeIpAddress; //Node added in @Before, to be updated/deleted
 
     @Before
     public void setup() {
         nodeRepository.deleteAll();
         Node node = nodeRepository.save(NodeMockFactory.mockNode());
-        nodeId = node.getId();
+        nodeIpAddress = node.getIpAddress();
     }
 
     @Test
@@ -43,20 +43,19 @@ public class NodeRepositoryTest {
 
     @Test
     public void deleteNode() {
-        Node node = nodeRepository.findOne(nodeId);
+        Node node = nodeRepository.findOne(nodeIpAddress);
         assertNotNull(node);
         log.info("{}", new JsonString(node));
-        nodeRepository.delete(nodeId);;
-        Node shouldBeNull = nodeRepository.findOne(nodeId);
+        nodeRepository.delete(nodeIpAddress);;
+        Node shouldBeNull = nodeRepository.findOne(nodeIpAddress);
         assertTrue(shouldBeNull == null);
     }
 
     @Test
     public void updateNode() {
-        Node node = nodeRepository.findOne(nodeId);
+        Node node = nodeRepository.findOne(nodeIpAddress);
         log.info("Node before update: {}", new JsonString(node));
         Node updatedNode = Node.builder()
-                .id(node.getId())
                 .ipAddress(node.getIpAddress())
                 .port(3333)
                 .userName("Elvis")

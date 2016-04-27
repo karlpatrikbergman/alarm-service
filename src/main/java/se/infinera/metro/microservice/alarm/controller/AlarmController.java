@@ -15,10 +15,10 @@ import java.util.List;
 public class AlarmController {
 
     @Autowired
-    AlarmMapper alarmMapper;
+    private AlarmMapper alarmMapper;
 
     @Autowired
-    NodeAlarmService nodeAlarmService;
+    private NodeAlarmService nodeAlarmService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<List<AlarmDTO>> getAllNodesAlarms() {

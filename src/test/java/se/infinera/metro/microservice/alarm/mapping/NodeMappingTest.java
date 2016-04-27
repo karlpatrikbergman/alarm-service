@@ -27,7 +27,7 @@ public class NodeMappingTest {
     public void setup() {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 //        mapperFactory.classMap(Node.class, NodeDTO.class)
-//                .exclude("id")
+//                .exclude("alarmRepository")
 //                .byDefault()
 //                .register();
         mapperFacade = mapperFactory.getMapperFacade();
