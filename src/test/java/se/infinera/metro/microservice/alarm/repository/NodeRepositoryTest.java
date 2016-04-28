@@ -17,6 +17,9 @@ import se.infinera.metro.microservice.alarm.util.NodeMockFactory;
 
 import static org.junit.Assert.*;
 
+/**
+ * An example of setting test fixture in code (as opposed to using .sql-files)
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class, HttpConfig.class})
 @WebAppConfiguration //Needed when using Swagger for some reason I don't know
@@ -24,7 +27,7 @@ import static org.junit.Assert.*;
 public class NodeRepositoryTest {
     @Autowired
     private NodeRepository nodeRepository;
-    private String nodeIpAddress; //Node added in @Before, to be updated/deleted
+    private String nodeIpAddress;
 
     @Before
     public void setup() {
