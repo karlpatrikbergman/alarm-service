@@ -22,6 +22,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Example of adding test fixture using an .sql-file, "alarm_repository_test.sql".
+ * The file contains sql statements to set db in specific state before test
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class, HttpConfig.class})
 @WebAppConfiguration //Needed when using Swagger for some reason I don't know
@@ -35,14 +39,14 @@ public class AlarmRepositoryTest {
     private DataSource ds;
     private static boolean loadDataFixtures = true;
 
-    //Alarm inserted in testdata.sql
+    //Alarm inserted in alarm_repository_test.sql
     private final String ALARM_NE_IP_ADDRESS = "99.99.99.99";
     private final String ALARM_INDEX = "0";
 
     @Before
     public void loadDataFixtures() {
         if (loadDataFixtures) {
-            ResourceDatabasePopulator populator = new ResourceDatabasePopulator(context.getResource("classpath:/testdata.sql"));
+            ResourceDatabasePopulator populator = new ResourceDatabasePopulator(context.getResource("classpath:/repository/alarm_repository_test.sql"));
             DatabasePopulatorUtils.execute(populator, ds);
             loadDataFixtures = false;
         }
