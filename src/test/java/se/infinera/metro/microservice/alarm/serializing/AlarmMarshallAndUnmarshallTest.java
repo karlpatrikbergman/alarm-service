@@ -33,7 +33,7 @@ public class AlarmMarshallAndUnmarshallTest {
 
     @Test //From JSON to Java pojo == Deserialize
     public void unmarshallAuthor() throws IOException {
-        String authorJsonString = new ResourceString("json/alarm.json").toString();
+        String authorJsonString = new ResourceString("serializing/alarm.json").toString();
         assertNotNull(authorJsonString);
         Alarm alarm = mapper.readValue(authorJsonString, Alarm.class);
         assertNotNull(alarm);

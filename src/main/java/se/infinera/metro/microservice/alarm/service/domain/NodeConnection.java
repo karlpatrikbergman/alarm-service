@@ -1,5 +1,7 @@
 package se.infinera.metro.microservice.alarm.service.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -17,6 +19,7 @@ import java.util.regex.Pattern;
 @Component
 @Scope("prototype")
 public class NodeConnection {
+    @Getter(AccessLevel.NONE)
     @Autowired
     RestTemplate restTemplate;
     private int sessionId;
@@ -78,7 +81,7 @@ public class NodeConnection {
     HttpEntity getHttpEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cookie", "sessionId="+sessionId);
-        return new HttpEntity(headers);
+        return new HttpEntity<String>(headers);
     }
 
     String getEnmLoginUri() {

@@ -3,6 +3,7 @@ package se.infinera.metro.microservice.alarm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import se.infinera.metro.microservice.alarm.repository.AlarmRepository;
 import se.infinera.metro.microservice.alarm.service.domain.Alarm;
@@ -12,7 +13,6 @@ import java.util.List;
 
 @Slf4j
 public class PollNodesRunner implements CommandLineRunner {
-
     @Autowired
     private NodeConnections nodeConnections;
 

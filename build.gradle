@@ -17,11 +17,22 @@ buildscript {
 
 allprojects {
     apply plugin: 'java'
+    compileJava {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
     apply plugin: 'spring-boot'
     apply plugin: 'idea'
+}
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+
+
+test {
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed'
+    }
 }
 
 repositories {

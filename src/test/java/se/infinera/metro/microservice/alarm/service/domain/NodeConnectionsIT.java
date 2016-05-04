@@ -9,10 +9,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.context.WebApplicationContext;
-import se.infinera.metro.microservice.alarm.Application;
-import se.infinera.metro.microservice.alarm.HttpConfig;
+import se.infinera.metro.microservice.alarm.AlarmApplication;
 import se.infinera.metro.microservice.alarm.repository.AlarmRepository;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 import se.infinera.metro.microservice.alarm.service.NodeAlarmService;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {Application.class, HttpConfig.class})
+@SpringApplicationConfiguration(classes = {AlarmApplication.class})
 @WebIntegrationTest
 @Slf4j
 public class NodeConnectionsIT {
@@ -45,11 +45,10 @@ public class NodeConnectionsIT {
     @Autowired
     private NodeAlarmService alarmService;
 
-
     @Before
     public void loadDataFixtures() {
         if (loadDataFixtures) {
-            ResourceDatabasePopulator populator = new ResourceDatabasePopulator(context.getResource("classpath:/insert_docker_nodes.sql"));
+            ResourceDatabasePopulator populator = new ResourceDatabasePopulator(context.getResource("classpath:/service/domain/insert_docker_nodes.sql"));
             DatabasePopulatorUtils.execute(populator, ds);
             loadDataFixtures = false;
         }

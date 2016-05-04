@@ -32,6 +32,10 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        log.debug("*********************** afterPropertiesSet *****************");
+        StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
+                .forEach(node -> log.debug((node.toString())));
+
         addNodeConnections();
         requestLoginAndSetSessionIdForAddedNodeConnections();
 
@@ -41,6 +45,10 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
         nodeConnections = StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
                 .map(this::createNodeConnection)
                 .collect(Collectors.toList());
+    }
+
+    void addNodeConnection(Node node) {
+
     }
 
     void requestLoginAndSetSessionIdForAddedNodeConnections() {
@@ -66,17 +74,6 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        System.out.println("ARE WE READY???");
-        System.out.println("added nodes: " + nodeRepository.count());
+        log.debug("added nodes: " + nodeRepository.count());
     }
-
-//    public void foo() {
-//        List<Alarm> alarmList = StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
-//                .forEach();
-////                .map(node -> node.getIpAddress())
-////                .map(ipAddress -> alarmRepository.findByAlarmNeIpAddress(ipAddress))
-////                .flatMap(l -> l.stream())
-////                .collect(Collectors.toList());
-////        log.debug("All nodes alarms list size {}", alarmList.size());
-//    }
 }

@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
-import se.infinera.metro.microservice.alarm.Application;
+import se.infinera.metro.microservice.alarm.AlarmApplication;
 import se.infinera.metro.microservice.alarm.HttpConfig;
 import se.infinera.metro.microservice.alarm.service.domain.Alarm;
 import se.infinera.metro.microservice.alarm.service.domain.AlarmPK;
@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  * The file contains sql statements to set db in specific state before test
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {Application.class, HttpConfig.class})
+@SpringApplicationConfiguration(classes = {AlarmApplication.class})
 @WebAppConfiguration //Needed when using Swagger for some reason I don't know
 @Slf4j
 public class AlarmRepositoryTest {

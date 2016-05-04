@@ -14,10 +14,10 @@ import se.infinera.metro.microservice.alarm.service.domain.NodeConnection;
 @Slf4j
 @SpringBootApplication
 @EnableScheduling
-public class Application {
+public class AlarmApplication {
 
     public static void main(String args[]) {
-        SpringApplication.run(Application.class);
+        SpringApplication.run(AlarmApplication.class);
     }
 
     /**

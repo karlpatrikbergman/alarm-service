@@ -12,7 +12,6 @@ import static org.junit.Assert.assertNotNull;
 
 @Slf4j
 public class NodeConnectionIT {
-
     private NodeConnection nodeConnection;
 
     @Before
