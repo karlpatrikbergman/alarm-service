@@ -56,6 +56,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
 
+    //https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '1.5.2'
+
     //runtime("com.h2database:h2")
     //To enable db access via sql tool
     compile("com.h2database:h2")

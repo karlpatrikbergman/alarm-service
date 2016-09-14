@@ -17,7 +17,7 @@ public class NodeConnectionIT {
     @Before
     public void setup() {
         Node node = Node.builder()
-                .ipAddress("172.17.0.2")
+                .ipAddress("172.18.0.2")
                 .port(80)
                 .userName("root")
                 .password("root")

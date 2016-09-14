@@ -1,0 +1,18 @@
+#!/bin/bash
+# Creates a container for mariadb and mounts it to
+# a volume from a data-only container. This way
+# data can be persisted even if container is deleted
+# and re-created.
+
+DB_CONTAINER="alarmservice_db_container"
+DATA_CONTAINER="alarmservice_data_container"
+IMAGE="mariadb:latest"
+
+docker run -d \
+    --name ${DB_CONTAINER} \
+    --volumes-from ${DATA_CONTAINER} \
+    -e MYSQL_USER=admin \
+    -e MYSQL_PASSWORD=admin \
+    -e MYSQL_DATABASE=alarmservicedb \
+    -e MYSQL_ROOT_PASSWORD=supersecret \
+    -p 3301:3306 ${IMAGE}

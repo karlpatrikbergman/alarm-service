@@ -1,0 +1,10 @@
+#!/bin/bash
+# Creates a container only for data storage.
+
+VOLUME_ON_HOST="alarmservice_data_volume"
+VOLUME_IN_CONTAINER="/var/lib/mysql" #default data directory for mariadb
+CONTAINER="alarmservice_data_container"
+IMAGE="mariadb:latest"
+
+docker run -d -v ${VOLUME_ON_HOST}:${VOLUME_IN_CONTAINER} --name ${CONTAINER} ${IMAGE}
+

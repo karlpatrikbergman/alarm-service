@@ -47,6 +47,8 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
                 .collect(Collectors.toList());
     }
 
+    //TODO
+    //Implement this so that nodes added during runtime gets polled
     void addNodeConnection(Node node) {
 
     }
