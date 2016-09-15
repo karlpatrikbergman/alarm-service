@@ -5,8 +5,8 @@
 # loaded and thus none of the properties defined in here were merged in the
 # environment.
 # For this reason, you should configure all of the property values that are
-# needed. In our case,we had to redefine the spring.jpa.hibernate.dll-auto
-# property,even though it was already declared in
+# needed. In our case, we had to redefine the spring.jpa.hibernate.dll-auto
+# property, even though it was already declared in
 # src/main/resources/application.properties.
 
 # TIP:
@@ -16,13 +16,13 @@
 # separate application.properties file,we could create an application-
 # test.properties file and set an active profile to test while running the tests.
 
-spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-
 # This tells Hibernate to recreate the database on startup. I actually don't want to use ddl
 # generation at all, but this is the only way I found to clear database after each
 # integration test
-spring.jpa.hibernate.ddl-auto=create-drop
-#spring.jpa.hibernate.ddl-auto=none
-
-spring.jackson.serialization-inclusion=non_null
-spring.jackson.serialization.indent_output=true
+spring:
+  jpa:
+    hibernate:
+        ddl-auto: create-drop
+  jackson:
+      serialization:
+        indent_output: true
