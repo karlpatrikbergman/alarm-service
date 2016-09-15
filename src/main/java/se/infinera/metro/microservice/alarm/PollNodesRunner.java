@@ -21,7 +21,7 @@ public class PollNodesRunner implements CommandLineRunner {
 
     @Scheduled(initialDelay = 5000, fixedRate = 5000)
     public void run() {
-//        log.info("Polling nodes for alarms");
+        log.info("Polling nodes for alarms");
         List<Alarm> alarmList = nodeConnections.getAllNodesAlarms();
         alarmRepository.save(alarmList);
     }

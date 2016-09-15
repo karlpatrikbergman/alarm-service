@@ -2,7 +2,6 @@ package se.infinera.metro.microservice.alarm.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 import se.infinera.metro.microservice.alarm.util.JsonString;
 
@@ -26,7 +25,7 @@ public class NodeConnectionIT {
         nodeConnection.restTemplate = new RestTemplate();
     }
 
-    @Test
+//    @Test
     public void getAlarms() {
         nodeConnection.requestLoginAndSetSessionId();
         List<Alarm> alarmList = nodeConnection.getAlarms();
