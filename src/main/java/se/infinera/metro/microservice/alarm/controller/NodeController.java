@@ -6,6 +6,7 @@ import se.infinera.metro.microservice.alarm.controller.dto.NodeDTO;
 import se.infinera.metro.microservice.alarm.mapping.NodeMapper;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 import se.infinera.metro.microservice.alarm.service.domain.Node;
+import se.infinera.metro.microservice.alarm.service.domain.NodeConnections;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +22,15 @@ public class NodeController {
     private NodeRepository nodeRepository;
 
     @Autowired
+    private NodeConnections nodeConnections;
+
+    @Autowired
     private NodeMapper nodeMapper;
 
     @RequestMapping(method = RequestMethod.POST)
     public NodeDTO addNode(@RequestBody NodeDTO nodeDTO) {
         Node node = nodeMapper.toNode(nodeDTO);
+        nodeConnections.addNodeConnection(node);
         node = nodeRepository.save(node);
         return nodeMapper.toNodeDTO(node);
     }

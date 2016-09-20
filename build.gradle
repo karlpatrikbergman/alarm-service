@@ -76,6 +76,8 @@ task buildDocker(type: Docker, dependsOn: build) {
 //    push = true
     applicationName = jar.baseName
     dockerfile = file('src/main/docker/Dockerfile')
+    addFile('src/main/docker/entrypoint.sh', '/entrypoint.sh')
+    addFile('src/main/docker/wait-for-it.sh', '/wait-for-it.sh')
     doFirst {
         copy {
             from jar
@@ -83,7 +85,3 @@ task buildDocker(type: Docker, dependsOn: build) {
         }
     }
 }
-
-//task wrapper(type: Wrapper) {
-//    gradleVersion = '3.0'
-//}

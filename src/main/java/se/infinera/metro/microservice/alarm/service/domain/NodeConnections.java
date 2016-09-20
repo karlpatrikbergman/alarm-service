@@ -8,31 +8,30 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Slf4j
 @Component
 public class NodeConnections implements ApplicationListener<ContextRefreshedEvent>, InitializingBean, DisposableBean {
-    private List<NodeConnection> nodeConnections;
+    private CopyOnWriteArrayList<NodeConnection> nodeConnections = new CopyOnWriteArrayList<>();
 
     @Autowired
     private ApplicationContext applicationContext;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Autowired
     private NodeRepository nodeRepository;
 
     @Override
     public void afterPropertiesSet() throws Exception {
+
         log.debug("*********************** afterPropertiesSet *****************");
+
         StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
                 .forEach(node -> log.debug((node.toString())));
 
@@ -44,18 +43,19 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
     void addNodeConnections() {
         nodeConnections = StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
                 .map(this::createNodeConnection)
-                .collect(Collectors.toList());
+                .collect((Collectors.toCollection(CopyOnWriteArrayList::new)));
     }
 
-    //TODO
-    //Implement this so that nodes added during runtime gets polled
-    void addNodeConnection(Node node) {
-
+    public void addNodeConnection(Node node) {
+        NodeConnection nodeConnection = createNodeConnection(node);
+        if(!nodeConnections.contains(nodeConnection)) {
+            nodeConnections.add(createNodeConnection(node));
+            log.debug("Added connection for node {}", node.toString());
+        }
     }
 
     void requestLoginAndSetSessionIdForAddedNodeConnections() {
-        nodeConnections.stream()
-                .forEach(NodeConnection::requestLoginAndSetSessionId);
+        nodeConnections.forEach(NodeConnection::requestLoginAndSetSessionId);
     }
 
     public List<Alarm> getAllNodesAlarms() {

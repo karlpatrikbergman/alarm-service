@@ -20,6 +20,7 @@ import se.infinera.metro.microservice.alarm.controller.dto.NodeDTO;
 import se.infinera.metro.microservice.alarm.repository.NodeRepository;
 
 import javax.sql.DataSource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,7 +92,7 @@ public class AlarmApplicationTest {
         }).getBody();
         assertEquals(2, nodesAlarmDTOLists.size());
         Optional<AlarmDTO> alarmDTOOptional = nodesAlarmDTOLists.stream()
-                .flatMap(list -> list.stream())
+                .flatMap(Collection::stream)
                 .filter(alarmDTO -> alarmDTO.getAlarmNeIpAddress().equals("44.33.22.11"))
                 .findAny();
         assertNotNull(alarmDTOOptional.get());

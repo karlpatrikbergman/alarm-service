@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import java.sql.SQLException;
 
 @Configuration
-@Profile("h2") // Only activate this in the "dev" profile
+@Profile("h2") // Only activate this in the "h2" profile
 public class H2ServerConfiguration {
 
     // TCP port for remote connections, default 9092
