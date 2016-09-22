@@ -6,10 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import se.infinera.metro.service.alarm.AlarmApplication;
 import se.infinera.metro.service.alarm.service.domain.Node;
 import se.infinera.metro.service.alarm.util.JsonString;
 import se.infinera.metro.service.alarm.util.NodeMockFactory;
@@ -20,7 +19,7 @@ import static org.junit.Assert.*;
  * An example of setting test fixture in code (as opposed to using .sql-files)
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {AlarmApplication.class})
+@SpringBootTest
 @WebAppConfiguration //Needed when using Swagger for some reason I don't know
 @Slf4j
 public class NodeRepositoryTest {

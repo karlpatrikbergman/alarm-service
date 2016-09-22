@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class NodeMockFactory {
-    private static RandomIpGenerator ipGenerator = RandomIpGenerator.INSTANCE;
+    private static final RandomIpGenerator ipGenerator = RandomIpGenerator.INSTANCE;
     public static Node mockNode() {
         return Node.builder()
                 .ipAddress(ipGenerator.getRandomIpAddress())

@@ -6,13 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.context.WebApplicationContext;
-import se.infinera.metro.service.alarm.AlarmApplication;
 import se.infinera.metro.service.alarm.service.domain.Alarm;
 import se.infinera.metro.service.alarm.util.JsonString;
 
@@ -22,8 +20,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {AlarmApplication.class})
-@WebIntegrationTest
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class NodeAlarmServiceIT {
     @Autowired
