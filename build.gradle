@@ -1,4 +1,15 @@
-group 'se.infinera.metro'
+apply plugin: 'java'
+compileJava {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+apply plugin: 'docker'
+apply plugin: 'maven-publish'
+
+group 'se.infinera.metro.service.alarm'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -14,27 +25,58 @@ buildscript {
     }
 }
 
-allprojects {
-    apply plugin: 'java'
-    compileJava {
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-    apply plugin: 'spring-boot'
-    apply plugin: 'idea'
-    apply plugin: 'docker'
-}
-
+//Use in-memory db h2 by default when starting application with bootRun
 def profiles = 'h2'
-
 bootRun {
     args = ["--spring.profiles.active=" + profiles]
 }
 
+task buildDocker(type: Docker, dependsOn: build) {
+//    push = true
+    applicationName = jar.baseName
+    dockerfile = file('src/main/docker/Dockerfile')
+    addFile('src/main/docker/entrypoint.sh', '/entrypoint.sh')
+    addFile('src/main/docker/wait-for-it.sh', '/wait-for-it.sh')
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
+}
+
+task apiJar(type: Jar) {
+    baseName "publishing-api"
+    from sourceSets.main.output
+    include '**/controller/dto/**'
+    exclude '**/mapping/**'
+    exclude '**/repository/**'
+    exclude '**/service/**'
+
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+publishing {
+    publications {
+        api(MavenPublication) {
+            groupId project.group
+            artifactId project.name+'-api'
+            version project.version
+            artifact apiJar
+        }
+    }
+}
+
 test {
+    //Show that tests are run in the command-line output
     testLogging {
-        // Show that tests are run in the command-line output
         events 'started', 'passed'
     }
 }
@@ -46,7 +88,7 @@ repositories {
 
 dependencies {
     compile("org.apache.httpcomponents:httpclient:4.5.2")
-    compile("org.projectlombok:lombok:1.16.8")
+    compile("org.projectlombok:lombok:1.16.10")
     compile("com.fasterxml.jackson.core:jackson-databind")
     compile("ma.glasnost.orika:orika-core:1.4.6")
     compile("com.google.guava:guava:19.0")
@@ -70,18 +112,4 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.apache.commons:commons-math3:3.6.1")
     testRuntime("com.jayway.jsonpath:json-path")
-}
-
-task buildDocker(type: Docker, dependsOn: build) {
-//    push = true
-    applicationName = jar.baseName
-    dockerfile = file('src/main/docker/Dockerfile')
-    addFile('src/main/docker/entrypoint.sh', '/entrypoint.sh')
-    addFile('src/main/docker/wait-for-it.sh', '/wait-for-it.sh')
-    doFirst {
-        copy {
-            from jar
-            into stageDir
-        }
-    }
 }
