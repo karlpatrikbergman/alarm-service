@@ -48,28 +48,26 @@ task buildDocker(type: Docker, dependsOn: build) {
 task apiJar(type: Jar) {
     baseName "publishing-api"
     from sourceSets.main.output
-    include '**/controller/dto/**'
-    exclude '**/mapping/**'
-    exclude '**/repository/**'
-    exclude '**/service/**'
-
+    exclude '**/alarm/service/**'
+    exclude '**/alarm/mapping/**'
+    exclude '**/alarm/repository/**'
+    include '**/alarm/controller/dto/**'
 }
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        impl(MavenPublication) {
+            groupId 'se.infinera.metro.service.alarm'
+            artifactId 'alarmservice-impl'
+            version '1.0'
+
             from components.java
         }
-    }
-}
-
-publishing {
-    publications {
         api(MavenPublication) {
-            groupId project.group
-            artifactId project.name+'-api'
-            //noinspection GroovyAssignabilityCheck
-            version project.version
+            groupId 'se.infinera.metro.service.alarm'
+            artifactId 'alarmservice-api'
+            version '1.0'
+
             artifact apiJar
         }
     }
