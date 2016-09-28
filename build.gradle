@@ -58,15 +58,15 @@ publishing {
     publications {
         impl(MavenPublication) {
             groupId 'se.infinera.metro.service.alarm'
-            artifactId 'alarmservice-impl'
-            version '1.0'
+            artifactId project.name
+            version project.version
 
             from components.java
         }
         api(MavenPublication) {
             groupId 'se.infinera.metro.service.alarm'
-            artifactId 'alarmservice-api'
-            version '1.0'
+            artifactId project.name + '-api'
+            version project.version
 
             artifact apiJar
         }
@@ -92,6 +92,7 @@ dependencies {
     compile("ma.glasnost.orika:orika-core:1.4.6")
     compile("com.google.guava:guava:19.0")
     compile("io.springfox:springfox-swagger2:2.4.0")
+    compile("io.springfox:springfox-swagger-ui:2.4.0")
     compile("io.springfox:springfox-swagger-ui:2.4.0")
     compile("org.antlr:stringtemplate:4.0.2")
     compile("org.apache.commons:commons-lang3:3.4")

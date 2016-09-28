@@ -10,6 +10,6 @@ VOLUME /tmp
 COPY wait-for-it.sh /wait-for-it.sh
 COPY entrypoint.sh /entrypoint.sh
 COPY alarmservice-1.0-SNAPSHOT.jar alarmservice.jar
-RUN sh -c 'touch /alarm-service.jar'
+RUN sh -c 'touch /alarmservice.jar'
 
 ENTRYPOINT ["/bin/bash","./entrypoint.sh"]

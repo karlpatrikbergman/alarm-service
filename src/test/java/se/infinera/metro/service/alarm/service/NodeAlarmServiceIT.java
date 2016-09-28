@@ -44,8 +44,7 @@ public class NodeAlarmServiceIT {
     public void getAllNodesAlarms() {
         List<List<Alarm>> allNodesAlarms = nodeAlarmService.getAllNodesAlarms();
         assertNotNull(allNodesAlarms);
-        allNodesAlarms.stream()
-                .forEach(alarm -> log.info("{}", new JsonString(alarm))
+        allNodesAlarms.forEach(alarm -> log.info("{}", new JsonString(alarm))
         );
     }
 

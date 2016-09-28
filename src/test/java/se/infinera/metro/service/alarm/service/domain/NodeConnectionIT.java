@@ -30,7 +30,6 @@ public class NodeConnectionIT {
         nodeConnection.requestLoginAndSetSessionId();
         List<Alarm> alarmList = nodeConnection.getAlarms();
         assertNotNull(alarmList);
-        alarmList.stream()
-                .forEach(alarm -> log.info(new JsonString(alarm).toString()));
+        alarmList.forEach(alarm -> log.info(new JsonString(alarm).toString()));
     }
 }

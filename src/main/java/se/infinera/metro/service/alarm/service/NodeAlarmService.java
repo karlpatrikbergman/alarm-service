@@ -15,11 +15,15 @@ import java.util.stream.StreamSupport;
 @Service
 public class NodeAlarmService {
 
-    @Autowired
-    protected NodeRepository nodeRepository;
+    protected final NodeRepository nodeRepository;
+    protected final AlarmRepository alarmRepository;
 
     @Autowired
-    protected AlarmRepository alarmRepository;
+    public NodeAlarmService(NodeRepository nodeRepository, AlarmRepository alarmRepository) {
+        this.nodeRepository = nodeRepository;
+        this.alarmRepository = alarmRepository;
+
+    }
 
     /**
      * TODO:

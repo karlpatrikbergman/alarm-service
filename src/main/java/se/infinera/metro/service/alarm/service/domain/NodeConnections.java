@@ -20,12 +20,8 @@ import java.util.stream.StreamSupport;
 @Component
 public class NodeConnections implements ApplicationListener<ContextRefreshedEvent>, InitializingBean, DisposableBean {
     private CopyOnWriteArrayList<NodeConnection> nodeConnections = new CopyOnWriteArrayList<>();
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    @Autowired
-    private NodeRepository nodeRepository;
+    @Autowired private ApplicationContext applicationContext;
+    @Autowired private NodeRepository nodeRepository;
 
     @Override
     public void afterPropertiesSet() throws Exception {

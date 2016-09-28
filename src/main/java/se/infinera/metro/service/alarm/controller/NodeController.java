@@ -18,14 +18,16 @@ import java.util.stream.StreamSupport;
 public class NodeController {
 
     //Maybe add NodeService later?
-    @Autowired
-    private NodeRepository nodeRepository;
+    private final NodeRepository nodeRepository;
+    private final NodeConnections nodeConnections;
+    private final NodeMapper nodeMapper;
 
     @Autowired
-    private NodeConnections nodeConnections;
-
-    @Autowired
-    private NodeMapper nodeMapper;
+    public NodeController(NodeRepository nodeRepository, NodeConnections nodeConnections, NodeMapper nodeMapper) {
+        this.nodeRepository = nodeRepository;
+        this.nodeConnections = nodeConnections;
+        this.nodeMapper = nodeMapper;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public NodeDTO addNode(@RequestBody NodeDTO nodeDTO) {

@@ -12,9 +12,9 @@ import java.util.List;
 
 @Slf4j
 public class PollNodesRunner implements CommandLineRunner {
+
     @Autowired
     private NodeConnections nodeConnections;
-
     @Autowired
     private AlarmRepository alarmRepository;
 
