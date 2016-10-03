@@ -7,6 +7,7 @@ yum clean all
 
 VOLUME /tmp
 
+#TODO: Move COPY to one line for all files COPY["file1", "file2", ..., "/"]
 COPY wait-for-it.sh /wait-for-it.sh
 COPY entrypoint.sh /entrypoint.sh
 COPY alarmservice-1.0-SNAPSHOT.jar alarmservice.jar
