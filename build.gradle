@@ -1,37 +1,68 @@
 group 'com.infinera.metro.service.alarm'
-version '1.0-SNAPSHOT'
+version = currentVersion
 
+buildscript {
+    ext {
+        springBootVersion = '1.4.1.RELEASE'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.7'
+    }
+}
+
+apply plugin: "com.jfrog.artifactory"
+apply plugin: 'maven-publish'
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+apply plugin: 'docker'
 apply plugin: 'java'
+
 compileJava {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 }
-apply plugin: 'spring-boot'
-apply plugin: 'idea'
-apply plugin: 'docker'
-apply plugin: 'maven-publish'
 
-
-buildscript {
-    ext {
-        springBootVersion = '1.4.0.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath('se.transmode.gradle:gradle-docker:1.2')
-    }
-}
-
-//Use in-memory db h2 by default when starting application with bootRun
+/**
+ * H2 settings
+ * Use in-memory db h2 by default when starting application with bootRun
+ */
 def profiles = 'h2'
 bootRun {
     args = ["--spring.profiles.active=" + profiles]
 }
 
+/** Test settings **/
+test {
+    //Show that tests are run in the command-line output
+    testLogging {
+        events 'started', 'passed'
+    }
+}
+
+/** Artifactory settings **/
+String repo = version.endsWith('SNAPSHOT') ? 'libs-snapshot-local' : 'libs-release-local'
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = repo
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+        defaults {
+            publications ('api')
+            //publishArtifacts = true           //Defaults to true according to documentation
+        }
+    }
+}
+
+/** Docker plugin settings **/
 task buildDocker(type: Docker, dependsOn: build) {
 //    push = true
 //    applicationName = jar.baseName
@@ -47,6 +78,25 @@ task buildDocker(type: Docker, dependsOn: build) {
     }
 }
 
+/** Publishing settings **/
+publishing {
+    publications {
+        impl(MavenPublication) {
+            groupId project.group
+            artifactId project.name
+            version project.version
+            from components.java
+        }
+        api(MavenPublication) {
+            groupId project.group
+            artifactId project.name + '-api'
+            version project.version
+            artifact apiJar
+        }
+    }
+}
+
+//Task for publishing only api classes
 task apiJar(type: Jar) {
     baseName "publishing-api"
     from sourceSets.main.output
@@ -56,37 +106,11 @@ task apiJar(type: Jar) {
     include '**/alarm/controller/dto/**'
 }
 
-publishing {
-    publications {
-        impl(MavenPublication) {
-            groupId 'se.infinera.metro.service.alarm'
-            artifactId project.name
-            version project.version
-
-            from components.java
-        }
-        api(MavenPublication) {
-            groupId 'se.infinera.metro.service.alarm'
-            artifactId project.name + '-api'
-            version project.version
-
-            artifact apiJar
-        }
-    }
-}
-
-test {
-    //Show that tests are run in the command-line output
-    testLogging {
-        events 'started', 'passed'
-    }
-}
-
+/** Repositories settings **/
 repositories {
-    mavenCentral()
-    mavenLocal()
+    jcenter()
 }
-
+ /** Dependency settings **/
 dependencies {
     compile("org.apache.httpcomponents:httpclient:4.5.2")
     compile("org.projectlombok:lombok:1.16.10")
