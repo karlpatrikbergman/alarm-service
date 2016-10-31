@@ -7,6 +7,7 @@ buildscript {
     }
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -108,7 +109,8 @@ task apiJar(type: Jar) {
 
 /** Repositories settings **/
 repositories {
-    jcenter()
+//    jcenter()
+    mavenCentral()
 }
  /** Dependency settings **/
 dependencies {

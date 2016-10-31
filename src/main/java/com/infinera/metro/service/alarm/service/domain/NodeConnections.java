@@ -25,12 +25,8 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
-        log.debug("*********************** afterPropertiesSet *****************");
-
         StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
                 .forEach(node -> log.debug((node.toString())));
-
         addNodeConnections();
         requestLoginAndSetSessionIdForAddedNodeConnections();
 
@@ -48,6 +44,10 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
             nodeConnections.add(createNodeConnection(node));
             log.debug("Added connection for node {}", node.toString());
         }
+    }
+
+    public void deleteNodeConnection(String ipAddress) {
+        throw new RuntimeException("TODO: Implement this!!");
     }
 
     void requestLoginAndSetSessionIdForAddedNodeConnections() {

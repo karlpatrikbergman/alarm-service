@@ -51,9 +51,15 @@ public class NodeController {
         return nodeMapper.toNodeDTOList(nodeList);
     }
 
+    /**
+     * TODO: Delete node from NodeConnections
+     *
+     * @param ipAddress
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteNode(@PathVariable String ipAddress) {
         nodeRepository.delete(ipAddress);
+        nodeConnections.deleteNodeConnection(ipAddress);
     }
 
     /**
