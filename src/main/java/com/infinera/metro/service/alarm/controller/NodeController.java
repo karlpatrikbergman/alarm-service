@@ -4,6 +4,7 @@ import com.infinera.metro.service.alarm.mapping.NodeMapper;
 import com.infinera.metro.service.alarm.repository.NodeRepository;
 import com.infinera.metro.service.alarm.service.domain.Node;
 import com.infinera.metro.service.alarm.service.domain.NodeConnections;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.infinera.metro.service.alarm.controller.dto.NodeDTO;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 @RestController
 @RequestMapping("/nodes")
 public class NodeController {
@@ -52,14 +54,24 @@ public class NodeController {
     }
 
     /**
-     * TODO: Delete node from NodeConnections
+     * On how to have path variables containing dots (as ip address)
+     *   http://stackoverflow.com/questions/16332092/spring-mvc-pathvariable-with-dot-is-getting-truncated
+     *
+     * On what to return after delete and after request to delete something that does not exist:
+     *   "The DELETE method is idempotent. This implies that the server must return response code 200 (OK) even if the
+     *    server deleted the resource in a previous request. But in practice, implementing DELETE as an idempotent
+     *    operation requires the server to keep track of all deleted resources.
+     *    Otherwise, it can return a 404 (Not Found)."
+     *    https://books.google.com/books?id=LDuzpQlVuG4C&pg=PA11&sa=X&ved=0ahUKEwi6x4-W9NnNAhXLCCwKHeL0Db8Q6AEIHDAA#v=onepage&q&f=false
      *
      * @param ipAddress
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteNode(@PathVariable String ipAddress) {
+    @RequestMapping(value = "/{ipAddress:.+}", method = RequestMethod.DELETE)
+    public void removeNode(@PathVariable String ipAddress) {
         nodeRepository.delete(ipAddress);
         nodeConnections.deleteNodeConnection(ipAddress);
+
+        log.debug("Deleted node with ip address {} (if existing)", ipAddress);
     }
 
     /**

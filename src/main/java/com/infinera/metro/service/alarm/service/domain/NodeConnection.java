@@ -29,6 +29,10 @@ public class NodeConnection {
         this.node = node;
     }
 
+    public Node getNode() {
+        return node;
+    }
+
     public void requestLoginAndSetSessionId() {
         ResponseEntity<String> loginResponse = requestLogin();
         this.sessionId = getSessionId(loginResponse.getBody());

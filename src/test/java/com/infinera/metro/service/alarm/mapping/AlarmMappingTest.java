@@ -1,6 +1,8 @@
 package com.infinera.metro.service.alarm.mapping;
 
+import com.infinera.metro.service.alarm.controller.dto.AlarmDTO;
 import com.infinera.metro.service.alarm.service.domain.Alarm;
+import com.infinera.metro.service.alarm.util.AlarmMockFactory;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.BoundMapperFacade;
 import ma.glasnost.orika.MapperFacade;
@@ -8,10 +10,8 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.junit.Before;
 import org.junit.Test;
-import com.infinera.metro.service.alarm.controller.dto.AlarmDTO;
-import com.infinera.metro.service.alarm.util.AlarmMockFactory;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -33,8 +33,8 @@ public class AlarmMappingTest {
         boundMapperFacade = mapperFactory.getMapperFacade(Alarm.class, AlarmDTO.class);
         alarmSource = AlarmMockFactory.mockAlarm();
         alarmDTOSource = AlarmMockFactory.mockAlarmDTO();
-        alarmList = Arrays.asList(alarmSource);
-        alarmDTOList = Arrays.asList(alarmDTOSource);
+        alarmList = Collections.singletonList(alarmSource);
+        alarmDTOList = Collections.singletonList(alarmDTOSource);
     }
 
     @Test

@@ -12,6 +12,7 @@ import com.infinera.metro.service.alarm.repository.NodeRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -47,7 +48,17 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
     }
 
     public void deleteNodeConnection(String ipAddress) {
-        throw new RuntimeException("TODO: Implement this!!");
+        Optional<NodeConnection> nodeConnection = getNodeConnection(ipAddress);
+        if(nodeConnection.isPresent()) {
+            nodeConnections.remove(nodeConnection.get());
+            log.debug("Deleted node connection with ip address {}" , ipAddress);
+        }
+    }
+
+    public Optional<NodeConnection> getNodeConnection(String ipAddress) {
+        return nodeConnections.stream()
+                .filter(nodeConnection -> nodeConnection.getNode().getIpAddress().equals(ipAddress))
+                .findFirst();
     }
 
     void requestLoginAndSetSessionIdForAddedNodeConnections() {

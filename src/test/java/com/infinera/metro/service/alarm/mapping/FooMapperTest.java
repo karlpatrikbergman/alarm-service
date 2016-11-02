@@ -24,10 +24,10 @@ public class FooMapperTest {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFacade = mapperFactory.getMapperFacade();
         boundMapperFacade = mapperFactory.getMapperFacade(Foo.class, FooDTO.class);
-        fooSource = fooSource.builder()
+        fooSource = Foo.builder()
                 .name(EXPECTED_NAME)
                 .build();
-        fooDtoSource = fooDtoSource.builder()
+        fooDtoSource = FooDTO.builder()
                 .name(EXPECTED_NAME)
                 .build();
     }
