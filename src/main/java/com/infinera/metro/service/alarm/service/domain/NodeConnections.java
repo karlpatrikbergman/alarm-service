@@ -33,12 +33,6 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
 
     }
 
-    void addNodeConnections() {
-        nodeConnections = StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
-                .map(this::createNodeConnection)
-                .collect((Collectors.toCollection(CopyOnWriteArrayList::new)));
-    }
-
     public void addNodeConnection(Node node) {
         NodeConnection nodeConnection = createNodeConnection(node);
         if(!nodeConnections.contains(nodeConnection)) {
@@ -61,15 +55,21 @@ public class NodeConnections implements ApplicationListener<ContextRefreshedEven
                 .findFirst();
     }
 
-    void requestLoginAndSetSessionIdForAddedNodeConnections() {
-        nodeConnections.forEach(NodeConnection::requestLoginAndSetSessionId);
-    }
-
     public List<Alarm> getAllNodesAlarms() {
         return nodeConnections.stream()
                 .map(NodeConnection::getAlarms)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+    }
+
+    private void addNodeConnections() {
+        nodeConnections = StreamSupport.stream(nodeRepository.findAll().spliterator(), false)
+                .map(this::createNodeConnection)
+                .collect((Collectors.toCollection(CopyOnWriteArrayList::new)));
+    }
+
+    private void requestLoginAndSetSessionIdForAddedNodeConnections() {
+        nodeConnections.forEach(NodeConnection::requestLoginAndSetSessionId);
     }
 
     private NodeConnection createNodeConnection(Node node) {

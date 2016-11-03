@@ -39,11 +39,7 @@ public class NodeConnection {
     }
 
     public List<Alarm> getAlarms() {
-        log.info("Retrieving alarms from Node {}", node.getIpAddress());
         checkSessionId();
-
-        log.info("NodeConnection.getAlarmsUri() {}", getAlarmsUri());
-
         return restTemplate.exchange(
                 getAlarmsUri(), //Contains session-id
                 HttpMethod.GET,
