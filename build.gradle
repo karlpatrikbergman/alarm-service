@@ -1,5 +1,5 @@
 group 'com.infinera.metro.service.alarm'
-version = currentVersion
+version = '1.0-SNAPSHOT'
 
 buildscript {
     ext {
@@ -20,7 +20,6 @@ apply plugin: "com.jfrog.artifactory"
 apply plugin: 'maven-publish'
 apply plugin: 'spring-boot'
 apply plugin: 'idea'
-apply plugin: 'docker'
 apply plugin: 'java'
 
 compileJava {
@@ -28,6 +27,13 @@ compileJava {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 }
+
+task buildAndPushDockerImage(type:Exec, dependsOn: [jar, build]) {
+    //<path-to-application-jar> <docker-image-name> <docker-image-version> <docker-registry>
+    workingDir 'src/main/docker'
+    commandLine "./build_and_push_docker_image.sh", "$buildDir/libs/$jar.archiveName", "$project.name", "$version", "localhost:5000"
+}
+
 
 /**
  * H2 settings
@@ -63,22 +69,6 @@ artifactory {
     }
 }
 
-/** Docker plugin settings **/
-task buildDocker(type: Docker, dependsOn: build) {
-//    push = true
-//    applicationName = jar.baseName
-    applicationName = rootProject.name
-    dockerfile = file('src/main/docker/Dockerfile')
-    addFile('src/main/docker/entrypoint.sh', '/entrypoint.sh')
-    addFile('src/main/docker/wait-for-it.sh', '/wait-for-it.sh')
-    doFirst {
-        copy {
-            from jar
-            into stageDir
-        }
-    }
-}
-
 /** Publishing settings **/
 publishing {
     publications {
@@ -109,7 +99,6 @@ task apiJar(type: Jar) {
 
 /** Repositories settings **/
 repositories {
-//    jcenter()
     mavenCentral()
 }
  /** Dependency settings **/
