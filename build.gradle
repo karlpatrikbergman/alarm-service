@@ -31,7 +31,7 @@ compileJava {
 task buildAndPushDockerImage(type:Exec, dependsOn: [jar, build]) {
     //<path-to-application-jar> <docker-image-name> <docker-image-version> <docker-registry>
     workingDir 'src/main/docker'
-    commandLine "./build_and_push_docker_image.sh", "$buildDir/libs/$jar.archiveName", "$project.name", "$version", "localhost:5000"
+    commandLine "./build_and_push_docker_image.sh", "$buildDir/libs/$jar.archiveName", "$project.name", "$version", "localhost:5002"
 }
 
 
