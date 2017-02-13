@@ -1,0 +1,9 @@
+Run local docker registry:
+$ docker run -d -p 5000:5000 --name registry registry:2
+
+Push image to local docker registry using docker-compose:
+$ docker-compose push alarmservice
+
+Get alarmservice images pushed to local docker registry:
+$ curl http://localhost:5000/v2/alarmservice/tags/list
+
