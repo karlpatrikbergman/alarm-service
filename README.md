@@ -1,3 +1,6 @@
+# How to
+### Prerequisites
+docker-compose and docker installed
 #### Build alarmservice base docker image
 ```shell
 $ docker-compose build alarmservice 
