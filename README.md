@@ -24,7 +24,7 @@ $ docker run -d -p 5000:5000 --name registry registry:2
 ```shell
 $ docker-compose push alarmservice
 ```
-#### Run alarmservice in docker conatainer
+#### Run alarmservice in docker container
 ```shell
 $ docker-compose run alarmservice
 ```
