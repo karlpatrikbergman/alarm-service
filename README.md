@@ -1,6 +1,14 @@
 # How to
 ### Prerequisites
 docker-compose and docker installed
+#### Build, run unit tests, and run with Gradle
+```shell
+./gradlew clean build bootRun
+```
+#### View automatically created swagger documentation 
+Open http://localhost:8080/swagger-ui.html  
+Here you can add add nodes and get aggregated node alarms.
+
 #### Build alarmservice base docker image
 ```shell
 $ docker-compose build alarmservice 
