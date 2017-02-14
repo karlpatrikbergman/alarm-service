@@ -4,7 +4,8 @@ docker-compose and docker installed
 #### Build, run unit tests, and run with Gradle
 ```shell
 ./gradlew clean build bootRun
-```
+```  
+
 #### View automatically created swagger documentation 
 Open http://localhost:8080/swagger-ui.html  
 Here you can add add nodes and get aggregated node alarms.
@@ -36,4 +37,4 @@ For some reason I can't reach application on 'http://localhost:8080/swagger-ui.h
  when run as docker container?
 I have exposed port 8080 and mapped it. Needs research.
 
-It is reachable on container ip though, http://<container-ip>:8080/swagger-ui.html
+It is reachable on container ip though, http://container-ip:8080/swagger-ui.html
