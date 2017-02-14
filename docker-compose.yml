@@ -2,21 +2,7 @@ version: "2"
 services:
   alarmservice:
     build: .
-    image: localhost:5000/alarmservice
+    image: localhost:5000/alarmservice:latest
     container_name: alarmservice_container
-    environment:
-      SPRING_PROFILES_ACTIVE: docker-compose
     ports:
-      - 8080:8080
-    depends_on:
-      - alarmservice_db
-    links:
-      - alarmservice_db
-  alarmservice_db:
-    image: mariadb:10.1
-    container_name: alarmservice_db
-    environment:
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
-      MYSQL_DATABASE: alarmservice
-      MYSQL_ROOT_PASSWORD: root
+        - 8080:8080

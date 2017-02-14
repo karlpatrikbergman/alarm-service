@@ -1,0 +1,7 @@
+TODO:
+Make openjdk-alpine image work. I get weird error on wait_for_it.sh
+
+FROM openjdk:8-jdk-alpine
+RUN apk update && apk upgrade && \
+    apk add bash bash-doc bash-completion
+
