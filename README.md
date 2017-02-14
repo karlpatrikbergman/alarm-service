@@ -21,7 +21,7 @@ $ docker-compose push alarmservice
 $ docker-compose run alarmservice
 ```
 #### Automated functional acceptance tests
-See https://github.com/karlpatrikbergman/alarmservice-test-fixture
+See https://atlas.transmode.se/bitbucket/users/pabe/repos/alarmservice-acceptance-test/browse
 
 NOTE:   
 For some reason I can't reach application on 'http://localhost:8080/swagger-ui.html'
