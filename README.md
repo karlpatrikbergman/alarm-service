@@ -20,6 +20,9 @@ $ docker-compose push alarmservice
 ```shell
 $ docker-compose run alarmservice
 ```
+#### Automated functional acceptance tests
+See https://github.com/karlpatrikbergman/alarmservice-test-fixture
+
 NOTE:   
 For some reason I can't reach application on 'http://localhost:8080/swagger-ui.html'
  when run as docker container?
