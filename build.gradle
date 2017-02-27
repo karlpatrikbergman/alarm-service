@@ -21,7 +21,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'spring-boot'
 apply plugin: 'idea'
 apply plugin: 'java'
-apply plugin: 'docker'
+//apply plugin: 'docker'
 
 compileJava {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
@@ -41,18 +41,18 @@ task buildAndPushDockerImage(type:Exec, dependsOn: [jar, build]) {
 //}
 
 /** Docker plugin settings **/
-task buildDocker(type: Docker, dependsOn: build) {
-    dockerfile = file('src/main/docker/Dockerfile')
-    addFile('src/main/docker/entrypoint.sh', '/entrypoint.sh')
-    addFile('src/main/docker/wait-for-it.sh', '/wait-for-it.sh')
-    setEnvironment("applicationJar", "alarmservice-1.0-SNAPSHOT.jar")
-    doFirst {
-        copy {
-            from jar
-            into stageDir
-        }
-    }
-}
+//task buildDocker(type: Docker, dependsOn: build) {
+//    dockerfile = file('src/main/docker/Dockerfile')
+//    addFile('src/main/docker/entrypoint.sh', '/entrypoint.sh')
+//    addFile('src/main/docker/wait-for-it.sh', '/wait-for-it.sh')
+//    setEnvironment("applicationJar", "alarmservice-1.0-SNAPSHOT.jar")
+//    doFirst {
+//        copy {
+//            from jar
+//            into stageDir
+//        }
+//    }
+//}
 
 /**
  * H2 settings
