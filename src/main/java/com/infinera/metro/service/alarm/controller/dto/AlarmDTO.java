@@ -2,7 +2,7 @@ package com.infinera.metro.service.alarm.controller.dto;
 
 import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true) //Needed by Hibernate
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true) //Needed by Hibernate and Jackson
 @AllArgsConstructor(access = AccessLevel.PUBLIC) //Needed by Orika
 @Value
 @Builder

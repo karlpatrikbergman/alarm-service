@@ -28,8 +28,6 @@ import static org.junit.Assert.*;
  * Test fixture is loaded into db using "application_test.sql"
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes = AlarmApplication.class)
-//@WebIntegrationTest("server.port:0")
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AlarmApplicationTest {
 
@@ -61,7 +59,6 @@ public class AlarmApplicationTest {
             DatabasePopulatorUtils.execute(populator, ds);
             loadDataFixtures = false;
         }
-
     }
 
     @Test

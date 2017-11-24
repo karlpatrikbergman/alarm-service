@@ -23,19 +23,19 @@ public class AlarmMarshallAndUnmarshallTest {
     }
 
     @Test //From Java pojo to JSON string == Serialize
-    public void marshallAuthor() throws IOException {
-        String authorJsonString = mapper
+    public void marshallAlarm() throws IOException {
+        String alarmJsonString = mapper
                 .writerWithDefaultPrettyPrinter()
                 .writeValueAsString(AlarmMockFactory.mockAlarm());
-        assertNotNull(authorJsonString);
-        log.info(authorJsonString);
+        assertNotNull(alarmJsonString);
+        log.info(alarmJsonString);
     }
 
     @Test //From JSON to Java pojo == Deserialize
-    public void unmarshallAuthor() throws IOException {
-        String authorJsonString = new ResourceString("serializing/alarm.json").toString();
-        assertNotNull(authorJsonString);
-        Alarm alarm = mapper.readValue(authorJsonString, Alarm.class);
+    public void unmarshallAlarm() throws IOException {
+        String alarmJsonString = new ResourceString("serializing/alarm.json").toString();
+        assertNotNull(alarmJsonString);
+        Alarm alarm = mapper.readValue(alarmJsonString, Alarm.class);
         assertNotNull(alarm);
         log.info("{}", alarm);
     }
